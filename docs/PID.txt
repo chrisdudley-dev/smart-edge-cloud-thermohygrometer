@@ -1,0 +1,117 @@
+Project Initiation Document (PID)
+
+Smart-Edge-Cloud-Monitor: AI-Powered Environmental Monitoring with Cloud Alerting
+
+Executive Summary
+
+This document outlines the design and deployment of a smart, AI-driven edge-to-cloud monitoring system for environmental data. Targeted at smart infrastructure and IoT researchers or engineers, the system leverages edge machine learning for anomaly detection, cloud integration for alerting, and scalable deployment using Raspberry Pi or simulation environments. The goal is to provide a robust, real-time monitoring framework applicable across smart cities, industrial sites, and sensitive environments globa...
+
+## Objective
+Design and deploy a real-time, intelligent monitoring system that:
+- Collects environmental data (e.g., temperature, humidity) via a Raspberry Pi (or simulation)
+- Runs on-device ML (anomaly detection using TensorFlow Lite or PyTorch Mobile)
+- Publishes alerts to a cloud service (e.g., AWS IoT Core)
+- Triggers automated notifications (AWS Lambda + SNS)
+- Demonstrates strong skills in IoT, edge ML, automation, and cloud architecture
+- Serves as a showcase project tailored for smart cities and modern urban infrastructure
+
+## Problem Statement & Global Relevance
+Many regions around the world are increasingly deploying smart city technologies with a strong focus on environmental efficiency, automation, and intelligent infrastructure.  
+This system could support:
+- Data center cooling regulation
+- Industrial maintenance
+- Smart buildings and utilities in hot, sensitive environments
+Manual checks are reactive. This system is proactive, scalable, and cost-effective.
+
+## Success Criteria (MVP)
+A Minimum Viable Product will:
+- Collect real-time data from 2+ sensors (temp + humidity)
+- Run anomaly detection locally using a lightweight ML model
+- Publish structured data via MQTT
+- Connect to AWS IoT Core, store data in DynamoDB
+- Trigger Lambda-based alerts (email/SMS via SNS)
+- Include full documentation: README.md, architecture diagram, and usage logs
+- Operate autonomously (or in simulated mode) on Raspberry Pi
+
+## Key Technologies & Tools
+- Edge Device: Raspberry Pi (or simulation mode)
+- Programming: Python 3.x
+- ML Inference: TensorFlow Lite or PyTorch Mobile
+- Messaging Protocol: MQTT
+- Cloud Integration: AWS IoT Core, Lambda, DynamoDB, SNS
+- Visualization (Optional): Grafana / CloudWatch
+- Version Control: Git, GitHub
+- Containerization: Docker / Docker Compose (optional)
+- Docs & Diagrams: draw.io / Mermaid / Markdown
+
+## Phases & Timeline
+Week 1: Setup Pi or simulation, finalize PID & repo  
+Week 2: Log real or mock sensor data, store locally  
+Week 3: Integrate ML model for anomaly detection  
+Week 4: Set up MQTT messaging and connect to AWS IoT Core  
+Week 5: Lambda + SNS alert system, store to DynamoDB  
+Week 6: Document full setup, create visuals and screenshots  
+Week 7: Finalize codebase and documentation for public release
+
+## GitHub Deliverables
+Smart-Edge-Cloud-Monitor/
+- README.md
+- project_initiation_doc.md
+- requirements.txt
+- scripts/
+  - log_sensors.py
+  - log_sensors_mock.py
+- models/
+  - anomaly_model.tflite
+- aws/
+  - lambda_handler.py
+  - iot_core_config.json
+- docs/
+  - architecture_diagram.png
+  - future_scope.md
+  - sample_logs.csv
+  - SRS.md (optional)
+- screenshots/
+  - console_output.png
+  - cloud_dashboard.png
+
+## Risk Assessment
+- Hardware unavailable or faulty: Use log_sensors_mock.py to simulate sensor input
+- AWS misconfiguration: Use AWS CLI tutorials + test in sandbox mode
+- MQTT latency or dropouts: Add retry logic + local logging failover
+- Model doesn’t detect well: Use threshold-based rules or pre-trained TFLite
+- Lack of time: Complete MVP in simulation mode, expand later
+- AWS cost creep: Use free tier + scheduled teardown script
+
+## Project Contributors
+- Christopher J. Dudley: System Design, Development, Deployment
+
+## Optional Future Expansion
+- Multi-sensor room mapping or location-aware monitoring
+- AI training loop with AWS SageMaker
+- Full-stack dashboard (React or Flask)
+- Mobile app integration
+- Remote updates via GitHub Actions
+- Dockerized deployment across Pi clusters
+
+## Showcase & Outreach Recommendations
+- Add this to your GitHub pinned repos
+- Post screenshots, diagrams, and demo videos on LinkedIn
+- Engage relevant stakeholders or technology communities when sharing publicly
+- Consider writing a concise technical post that explains the system's architecture and functionality
+
+## Technical Assumptions
+- The system operates in environments with stable internet access for cloud communication.
+- Sensors provide accurate environmental data (temperature, humidity) or a reliable simulated input stream is used.
+- AWS Free Tier services are used within their limits to minimize operational costs.
+- The Raspberry Pi or simulation environment supports Python 3.x and necessary ML libraries.
+
+## Licensing & Attribution
+All code and documentation related to this project are provided under the MIT License unless otherwise stated. Attribution is appreciated when used in derivative or commercial works.
+
+## Quantified Success Metrics
+- The system detects environmental anomalies with <10% false-positive rate under test conditions.
+- Alerts are published within 0.5 seconds of anomaly detection.
+- MQTT data publishing uptime exceeds 95% in operational test runs.
+- Complete setup and configuration can be deployed in under 1 hour on a new device.
+- Documentation includes complete architecture diagram, deployment steps, and troubleshooting guide.

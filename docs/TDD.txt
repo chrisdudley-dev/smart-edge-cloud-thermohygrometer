@@ -1,0 +1,139 @@
+Technical Design Document (TDD)
+Project: Smart-Edge-Cloud-Monitor
+Author: Christopher J. Dudley
+Version: 1.2
+Date: 2025-08-02
+
+---
+
+1. Overview
+This document details the technical architecture, component breakdown, data flow, and implementation plan for the Smart-Edge-Cloud-Monitor system — an intelligent environmental monitoring platform using a Raspberry Pi, edge AI inference, MQTT, and AWS cloud services. It serves as a reference for implementation and future maintenance.
+
+---
+
+2. Architecture Diagram (Textual Description)
+The system consists of three major layers:
+1. Edge Device (Raspberry Pi)
+2. MQTT Broker (Mosquitto or AWS IoT Core)
+3. Cloud Layer (AWS)
+
+A visual architecture diagram is available in the project repository under `docs/architecture_diagram.png`.
+
+---
+
+3. Component Breakdown
+3.a. Sensor Interface
+- Hardware: DHT11/22, MQ135
+- Script: log_sensors.py
+- Function: Reads sensor data every 5 seconds
+
+3.b. Inference Engine
+- Script: run_inference.py
+- Function: Loads a trained TensorFlow Lite model or fallback threshold logic
+
+3.c. MQTT Publisher
+- Script: mqtt_publisher.py
+- Function: Publishes structured JSON to sensor/data or sensor/alerts
+
+3.d. Cloud Functions
+- AWS Lambda: Parses MQTT payloads
+- DynamoDB: Stores logs
+- SNS: Sends alerts
+
+3.e. Fallback Script
+- Script: log_sensors_mock.py
+- Simulates sensor output for development and testing
+
+---
+
+4. Data Flow
+1. Read data
+2. Inference
+3. Publish via MQTT
+4. AWS IoT → Lambda
+5. Lambda → DynamoDB
+6. Anomaly → SNS Alert
+
+---
+
+5. Module Design
+| Module               | Description                                       | Depends On                     |
+|----------------------|---------------------------------------------------|--------------------------------|
+| log_sensors.py       | Reads sensor data                                 | run_inference.py, mqtt_publisher.py |
+| log_sensors_mock.py  | Simulates data                                    | mqtt_publisher.py              |
+| run_inference.py     | ML model inference                                | -                              |
+| mqtt_publisher.py    | Publishes to MQTT                                 | -                              |
+| lambda_handler.py    | AWS Lambda for storage & alerts                   | AWS SDK                        |
+
+---
+
+6. Technology Stack Justification
+- Edge: Raspberry Pi
+- Sensors: DHT11/22, MQ135
+- ML: TensorFlow Lite
+- Messaging: MQTT (Quality of Service Level 1)
+- Cloud: AWS IoT Core, AWS Lambda, DynamoDB, SNS
+- Logging: Standard Python logging (for local debug and audit)
+- Visualization: Planned integration with Grafana
+
+---
+
+7. Security & Reliability
+- MQTT over TLS
+- Fallback logging for local recovery
+- Retry logic for message delivery
+- AWS Identity and Access Management (IAM) roles for secure access
+- Graceful shutdown using systemd or GPIO signal
+- Use of `.env` file for secrets and environment configuration
+
+---
+
+8. Extensibility
+- Add new sensors (e.g., motion, camera)
+- Dashboard integration with Grafana
+- Edge image detection using lightweight CNNs
+- Over-the-Air (OTA) firmware updates via GitHub Actions
+
+---
+
+9. Appendices
+
+A. Sample MQTT Payload:
+{
+  "timestamp": "2025-08-01T14:23:00Z",
+  "temperature": 33.4,
+  "humidity": 42,
+  "air_quality": 140,
+  "anomaly_detected": true,
+  "reason": "Temp threshold exceeded"
+}
+
+B. MQTT Topics:
+- sensor/data
+- sensor/alerts
+- sensor/status
+
+C. AWS Resources:
+- IoT Core: Thing, Rule
+- Lambda: 1 Function
+- DynamoDB: SensorLogs
+- SNS: 1 Topic with subscriptions
+
+---
+
+10. Assumptions
+- Raspberry Pi has stable network connectivity and access to AWS services.
+- Sensors are properly connected and return valid data.
+- AWS credentials and permissions are pre-configured using IAM roles.
+- The system is deployed on Linux-based environments with Python 3.x support.
+
+---
+
+11. Version History
+- v1.0 – Initial draft
+- v1.1 – Added security and reliability section
+- v1.2 – Finalized AWS resource mapping and extensibility
+
+---
+
+End of Document
