@@ -31,10 +31,14 @@ smart-edge-cloud-monitor/
 ├── src/                    # Main application code (Python)
 │   └── main.py
 ├── docs/                   # Documentation
-│   ├── PID.txt             # Project Initiation Document (📄 [PID](docs/PID.txt))
-│   └── TDD.txt             # Technical Design Document (📄 [TDD](docs/TDD.txt))
+│   ├── PID.txt             # Project Initiation Document
+│   └── TDD.txt             # Technical Design Document
 ├── test/                   # Unit tests and test data
 ├── hardware/               # Wiring diagrams and pin mappings
+├── requirements.txt        # Edge device dependencies
+├── requirements-dev.txt    # Local development + CI dependencies
+├── lambda_requirements.txt # AWS Lambda deployment dependencies
+├── lambda_local_requirements.txt # AWS Lambda local test dependencies
 ├── .gitignore
 ├── LICENSE
 └── README.md               # This file
@@ -45,33 +49,56 @@ smart-edge-cloud-monitor/
 ## 🚀 Getting Started
 
 ### ✅ Prerequisites
-
-- Raspberry Pi 4 or 5 (with RPi OS 64-bit)
+- Raspberry Pi 4 or 5 (with Raspberry Pi OS 64-bit)
 - Python 3.9+ installed
 - Internet connectivity (Wi-Fi or Ethernet)
 - AWS Account + IAM permissions for IoT Core & DynamoDB
 
 ### 💻 Clone the Repository
-
 ```bash
 git clone https://github.com/chrisdudley-dev/smart-edge-cloud-monitor.git
 cd smart-edge-cloud-monitor
 ```
 
-### 🧪 Create Virtual Environment & Install Dependencies
-
-#### On **Windows**
-```bash
+### 🧪 Create Virtual Environment
+#### Windows
+```powershell
 python -m venv venv
 venv\Scripts\activate
-pip install -r requirements.txt
 ```
-
-#### On **macOS / Linux**
+#### macOS / Linux
 ```bash
 python3 -m venv venv
 source venv/bin/activate
+```
+
+---
+
+### 📦 Install Dependencies
+
+**For Local Development / CI**  
+Includes runtime + testing, linting, and analysis tools.
+```bash
+pip install -r requirements-dev.txt
+```
+
+**For Raspberry Pi Edge Device**  
+Minimal runtime dependencies for the Pi itself.  
+If using legacy `RPi.GPIO` + `Adafruit_DHT`, uncomment those lines in `requirements.txt` before installing.
+```bash
 pip install -r requirements.txt
+```
+
+**For AWS Lambda Deployment**  
+Keep `lambda_requirements.txt` minimal (often empty). Add only extra packages your Lambda handler imports.
+```bash
+pip install -r lambda_requirements.txt
+```
+
+**For Local Testing of Lambda Functions**  
+Matches Lambda’s runtime libraries (including boto3/botocore).
+```bash
+pip install -r lambda_local_requirements.txt
 ```
 
 ---
@@ -106,6 +133,7 @@ Expected Output:
 - [x] Create project structure and GitHub repo
 - [x] Draft PID and TDD
 - [x] Write README scaffold
+- [x] Add modular dependency files for edge, Lambda, and local dev
 - [ ] Integrate DHT22 sensor
 - [ ] Implement local data logging
 - [ ] Configure AWS IoT Core & DynamoDB
