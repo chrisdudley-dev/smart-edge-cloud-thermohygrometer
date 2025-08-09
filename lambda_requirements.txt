@@ -1,0 +1,5 @@
+# lambda_requirements.txt — Deployed with the AWS Lambda function
+# Keep this minimal. DO NOT vendor boto3/botocore into the deployment package;
+# they are provided by the Lambda runtime for Python 3.12+.
+# Add only libraries your handler imports that are NOT in the runtime.
+# (Leave empty if not needed.)

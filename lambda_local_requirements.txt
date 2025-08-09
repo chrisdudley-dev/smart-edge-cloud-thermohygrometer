@@ -1,0 +1,4 @@
+# lambda_local_requirements.txt — Local-only deps to match Lambda runtime behavior
+# Install these on your laptop/CI when running the Lambda handler locally.
+boto3>=1.34,<2.0
+botocore>=1.34,<2.0

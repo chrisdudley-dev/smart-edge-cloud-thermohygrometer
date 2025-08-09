@@ -1,0 +1,32 @@
+# requirements.txt — Edge device (Raspberry Pi)
+# Lean runtime dependencies needed on the device itself.
+# Notes:
+# - Keep this minimal to reduce disk + build time.
+# - TensorFlow Lite wheels are architecture-specific (armv7l vs aarch64).
+
+# MQTT client (works for local Mosquitto and AWS IoT Core over 8883)
+paho-mqtt>=1.6,<2.0
+
+# Env var management (e.g., for endpoints, topics, thresholds)
+python-dotenv>=1.0,<2.0
+
+# Numpy is required by most TFLite models
+numpy>=1.24,<3.0
+
+# TensorFlow Lite runtime (install the correct wheel for your Pi architecture)
+# Example placeholder below; replace if you pin a specific wheel build.
+tflite-runtime==2.14.0 ; platform_machine in "armv7l aarch64"
+
+# Sensor / GPIO stack
+# Prefer the maintained CircuitPython DHT stack on modern Raspberry Pi OS (Bookworm).
+adafruit-blinka>=8.0,<9.0 ; platform_system=="Linux" and platform_machine in "armv7l aarch64"
+adafruit-circuitpython-dht>=4.0,<5.0 ; platform_system=="Linux" and platform_machine in "armv7l aarch64"
+
+# If you are using legacy RPi.GPIO-based code, uncomment ONE of the following lines:
+# RPi.GPIO>=0.7 ; platform_system=="Linux" and platform_machine in "armv7l aarch64"
+# Adafruit_DHT>=1.4 ; platform_system=="Linux" and platform_machine in "armv7l aarch64"
+
+# Optional: If corporate networks require port 443 with ALPN for AWS IoT,
+# add the AWS IoT Device SDK v2. Keep commented unless needed.
+# awsiotsdk>=1.18,<2.0
+# awscrt>=0.20,<1.0

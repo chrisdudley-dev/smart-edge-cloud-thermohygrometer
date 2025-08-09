@@ -1,0 +1,12 @@
+# requirements-dev.txt — Local dev & CI
+# Extends the edge runtime with testing, linting, typing, and analysis tools.
+-r requirements.txt
+
+pytest>=8.0,<9.0
+flake8>=7.0,<8.0
+black>=24.0,<25.0
+mypy>=1.10,<2.0
+
+# Helpful for data inspection, quick charts during debugging
+pandas>=2.0,<3.0
+matplotlib>=3.8,<4.0
