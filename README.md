@@ -131,6 +131,24 @@ Expected Output:
 **Variant B — Direct to AWS**  
 ![Direct to AWS](docs/architecture/arch_variantB_direct-aws.png)
 
+### Data Flow Sequence
+
+```mermaid
+sequenceDiagram
+    participant Sensor as Edge Device (DHT22, etc.)
+    participant Broker as MQTT Broker (Mosquitto / AWS IoT)
+    participant IoTCore as AWS IoT Core
+    participant Lambda as AWS Lambda
+    participant DB as DynamoDB
+    participant SNS as SNS Alerts
+
+    Sensor->>Broker: Publish readings (MQTT, JSON)
+    Broker->>IoTCore: Forward topic messages
+    IoTCore->>Lambda: Invoke rule action
+    Lambda->>DB: Store readings
+    Lambda->>SNS: Send alert if anomaly detected
+
+
 > The dashed OTA/config (Jobs/Shadow) path is included in both variants.
 
 > 📌 Sensor Wiring Diagram (Coming Soon)
