@@ -169,3 +169,12 @@ Help us improve by forking the repo and submitting a pull request.
 ## ðŸ“ License
 
 This project is licensed under the [Apache 2.0 License](LICENSE).
+## Architecture
+
+**Variant A — Mosquitto bridge**  
+![Mosquitto bridge](docs/architecture/arch_variantA_mosquitto-bridge.png)
+
+**Variant B — Direct to AWS**  
+![Direct to AWS](docs/architecture/arch_variantB_direct-aws.png)
+
+> Dashed OTA/config (Jobs/Shadow) is included in both variants.
