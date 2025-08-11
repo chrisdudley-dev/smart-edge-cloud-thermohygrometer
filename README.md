@@ -136,36 +136,38 @@ Expected Output:
 ```mermaid
 sequenceDiagram
     autonumber
-    %% Actors
+
     participant Edge as Edge (Raspberry Pi)
     participant Broker as MQTT Broker
+    box AWS Cloud
     participant IoT as AWS IoT Core Rule
     participant L as AWS Lambda
     participant DB as DynamoDB
     participant SNS as SNS Alerts
+    end
 
-    %% Publish from Edge
-    Edge->>Broker: Publish sensor/data, sensor/alerts (MQTT JSON, QoS 1)
+    %% Publish from edge
+    Edge->>Broker: sensor/data, sensor/alerts (JSON, QoS 1)
 
-    %% Variant: choose one deployment
+    %% Choose one deployment
     alt Direct to AWS
         Broker->>IoT: MQTT message (JSON)
     else Mosquitto bridge
-        Broker-->>IoT: Bridge sensor/#   %% dashed/asynch line to hint "bridge"
+        Broker-->>IoT: bridge sensor/#
     end
 
     %% Cloud processing
     IoT->>L: Rule invocation
-
+    activate L
     par Persist
         L->>DB: Store reading
     and Alert on anomaly
         L->>SNS: Send alert
     end
+    deactivate L
 
-    %% Future/optional
+    %% Future
     Note over Edge,IoT: Future: OTA/config via Jobs/Shadow
-
 ```
 
 > The dashed OTA/config (Jobs/Shadow) path is included in both variants.
