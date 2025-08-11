@@ -150,9 +150,9 @@ sequenceDiagram
 
 
 
-> The dashed OTA/config (Jobs/Shadow) path is included in both variants.
+% The dashed OTA/config (Jobs/Shadow) path is included in both variants.
 
-> 📌 Sensor Wiring Diagram (Coming Soon)
+% 📌 Sensor Wiring Diagram (Coming Soon)
 
 ---
 
