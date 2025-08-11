@@ -149,6 +149,7 @@ sequenceDiagram
     Lambda->>SNS: Send alert if anomaly detected
 
 
+
 > The dashed OTA/config (Jobs/Shadow) path is included in both variants.
 
 > 📌 Sensor Wiring Diagram (Coming Soon)
