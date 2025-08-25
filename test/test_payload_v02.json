@@ -1,0 +1,6 @@
+{
+  "timestamp": "2025-08-16T12:00:00Z",
+  "device_id": "edge-node-001",
+  "readings": { "temperature_C": 28.4, "humidity": 55.2, "air_quality": 140 },
+  "anomaly": { "anomaly_detected": false, "anomaly_score": 0.02 }
+}

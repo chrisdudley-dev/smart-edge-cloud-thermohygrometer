@@ -1,0 +1,57 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.org/schemas/v0.2/alert.schema.json",
+  "title": "Anomaly Alert Payload (v0.2)",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["timestamp", "device_id", "severity", "summary"],
+  "properties": {
+    "schema_version": { "type": "string", "const": "v0.2" },
+    "timestamp": { "type": "string", "format": "date-time", "description": "UTC RFC3339" },
+    "device_id": { "type": "string" },
+    "severity": { "type": "string", "enum": ["info", "warning", "critical"] },
+    "summary": { "type": "string" },
+    "details": { "type": "string" },
+
+    "anomaly": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "anomaly_detected": { "type": "boolean" },
+        "anomaly_score": { "type": "number", "minimum": 0, "maximum": 1 },
+        "reason": { "type": "string" },
+        "reasons": { "type": "array", "items": { "type": "string" }, "minItems": 1 },
+        "rule_ids": { "type": "array", "items": { "type": "string" } },
+        "model_version": { "type": "string" }
+      }
+    },
+
+    "readings_snapshot": {
+      "type": "object",
+      "additionalProperties": false,
+      "description": "Sensor readings at alert time",
+      "properties": {
+        "temperature_C": { "type": "number" },
+        "humidity": { "type": "number", "minimum": 0, "maximum": 100 },
+        "air_quality": { "type": "number" },
+        "pressure_hPa": { "type": "number" }
+      }
+    },
+
+    "correlation_ids": { "type": "array", "items": { "type": "string" } },
+    "message_id": { "type": "string", "description": "Optional UUIDv4 for alert record" }
+  },
+
+  "examples": [
+    {
+      "schema_version": "v0.2",
+      "timestamp": "2025-08-16T12:00:05Z",
+      "device_id": "edge-node-001",
+      "severity": "warning",
+      "summary": "Temperature threshold exceeded",
+      "details": "Temp 33.4C > 32C for 2 consecutive intervals",
+      "anomaly": { "anomaly_detected": true, "anomaly_score": 0.81, "reason": "Temp threshold", "model_version": "mvp-1" },
+      "readings_snapshot": { "temperature_C": 33.4, "humidity": 42, "air_quality": 140 }
+    }
+  ]
+}

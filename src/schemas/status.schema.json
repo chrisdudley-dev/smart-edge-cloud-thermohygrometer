@@ -1,0 +1,40 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.org/schemas/v0.2/status.schema.json",
+  "title": "Device Status Payload (v0.2)",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["timestamp", "device_id", "status"],
+  "properties": {
+    "schema_version": { "type": "string", "const": "v0.2" },
+    "timestamp": { "type": "string", "format": "date-time", "description": "UTC RFC3339" },
+    "device_id": { "type": "string" },
+    "status": { "type": "string", "enum": ["online", "offline", "degraded"] },
+    "firmware_version": { "type": "string" },
+
+    "metrics": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "rssi_dbm": { "type": "number" },
+        "battery_v": { "type": "number", "minimum": 0 },
+        "cpu_temp_C": { "type": "number" },
+        "uptime_s": { "type": "integer", "minimum": 0 },
+        "free_mem_mb": { "type": "integer", "minimum": 0 }
+      }
+    },
+
+    "notes": { "type": "string" }
+  },
+
+  "examples": [
+    {
+      "schema_version": "v0.2",
+      "timestamp": "2025-08-16T12:00:00Z",
+      "device_id": "edge-node-001",
+      "status": "online",
+      "firmware_version": "1.0.0",
+      "metrics": { "rssi_dbm": -58, "cpu_temp_C": 41.2, "uptime_s": 3600 }
+    }
+  ]
+}
