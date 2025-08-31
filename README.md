@@ -29,7 +29,8 @@ The Smart Edge–Cloud Monitor is an IoT system designed to collect real-time en
 ```bash
 smart-edge-cloud-monitor/
 ├── src/                    # Main application code (Python)
-│   └── main.py
+│   ├── main.py
+│   └── log_sensors_mock.py # Mock temperature/humidity logger
 ├── docs/                   # Documentation
 │   ├── PID.txt             # Project Initiation Document
 │   └── TDD.txt             # Technical Design Document
@@ -103,13 +104,15 @@ pip install -r lambda_local_requirements.txt
 
 ---
 
-## 🔍 Usage Example
+## 🔍 Usage Examples
 
+### Run the main app
+From the repo root:
 ```bash
 python src/main.py
 ```
 
-Expected Output:
+**Expected Output**
 ```json
 {
   "timestamp": "2025-08-06T22:11:03Z",
@@ -118,6 +121,43 @@ Expected Output:
   "device_id": "edge-node-001"
 }
 ```
+
+---
+
+### Mock Sensor Logger (Day 16–17)
+Generate realistic mock readings (as if from a DHT22) for local logging, testing, and pipeline exercises.
+
+```bash
+# Example: create 60 readings at 2s interval with explicit sensor ID
+python src/log_sensors_mock.py --count 60 --interval 2   --device-id edge-node-001 --sensor-id dht22-lab   --output data/sensor_log.jsonl
+```
+
+**Sample JSON Lines** (one object per line)
+```json
+{
+  "timestamp": "2025-08-31T12:25:08Z",
+  "timestamp_ms": "2025-08-31T12:25:08.788Z",
+  "temperature_C": 23.4,
+  "humidity": 49.8,
+  "device_id": "edge-node-001",
+  "sensor_id": "dht22-lab"
+}
+```
+
+**Flags**
+- `--device-id` (default: `edge-node-001`)
+- `--sensor-id` (default: `dht22-001`)
+- `--count` number of readings (`0` = infinite)
+- `--interval` seconds between readings (use `0` for fastest)
+- `--output` JSONL file (default: `data/sensor_log.jsonl`)
+- `--seed` random seed for reproducibility
+- `--self-test` runs built-in smoke tests and exits
+
+> Tip: keep generated logs out of Git—add this to `.gitignore`:
+> ```
+> data/
+> ```
+
 
 ---
 

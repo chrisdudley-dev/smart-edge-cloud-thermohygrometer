@@ -8,17 +8,21 @@ with the following shape:
 
 {
   "timestamp": "2025-08-06T22:11:03Z",
+  "timestamp_ms": "2025-08-06T22:11:03.123Z",
   "temperature_C": 24.6,
   "humidity": 52.4,
-  "device_id": "edge-node-001"
+  "device_id": "edge-node-001",
+  "sensor_id": "dht22-001"
 }
 
 Usage (examples):
     python log_sensors_mock.py --count 60 --interval 2 \
-        --device-id edge-node-001 --output data/sensor_log.jsonl
+        --device-id edge-node-001 --sensor-id dht22-001 \
+        --output data/sensor_log.jsonl
 
 Notes:
-- Designed to be drop-in compatible with the Day 15 payload structure.
+- Designed to be drop-in compatible with the Day 15 payload structure (keeps the original
+  "timestamp"), and adds millisecond precision as "timestamp_ms" plus a per-sensor identifier.
 - Keep this file hardware-agnostic; real sensor integrations should live
   in dedicated modules (e.g., src/sensors/dht22.py) later.
 - Future: optionally validate against your JSON Schemas (v0.1 / v0.2).
@@ -44,10 +48,12 @@ from tempfile import TemporaryDirectory
 # ----------------------------
 @dataclass
 class SensorReading:
-    timestamp: str
+    timestamp: str           # RFC3339, seconds precision
+    timestamp_ms: str        # RFC3339, milliseconds precision
     temperature_C: float
     humidity: float
     device_id: str
+    sensor_id: str
 
 
 # ----------------------------
@@ -55,9 +61,14 @@ class SensorReading:
 # ----------------------------
 ISO_FMT = "%Y-%m-%dT%H:%M:%SZ"
 
-
 def utc_now_iso() -> str:
     return datetime.now(timezone.utc).strftime(ISO_FMT)
+
+
+def utc_now_iso_ms() -> str:
+    """UTC RFC3339 timestamp with millisecond precision, e.g. 2025-08-06T22:11:03.123Z"""
+    dt = datetime.now(timezone.utc)
+    return f"{dt:%Y-%m-%dT%H:%M:%S}.{int(dt.microsecond/1000):03d}Z"
 
 
 # ----------------------------
@@ -121,13 +132,15 @@ class JSONLWriter:
             f.write(line + "\n")
 
 
-def emit_reading(device_id: str, sensor: MockDHT22) -> SensorReading:
+def emit_reading(device_id: str, sensor_id: str, sensor: MockDHT22) -> SensorReading:
     temp_c, h_pct = sensor.read()
     return SensorReading(
         timestamp=utc_now_iso(),
+        timestamp_ms=utc_now_iso_ms(),
         temperature_C=float(temp_c),
         humidity=float(h_pct),
         device_id=device_id,
+        sensor_id=sensor_id,
     )
 
 
@@ -141,6 +154,7 @@ def parse_args() -> argparse.Namespace:
         formatter_class=argparse.ArgumentDefaultsHelpFormatter,
     )
     p.add_argument("--device-id", default="edge-node-001", help="Logical device identifier")
+    p.add_argument("--sensor-id", default="dht22-001", help="Physical/virtual sensor identifier")
     p.add_argument("--interval", type=float, default=2.0, help="Seconds between readings")
     p.add_argument("--count", type=int, default=30, help="Number of readings to generate (0 = infinite)")
     p.add_argument("--output", type=Path, default=Path("data/sensor_log.jsonl"), help="Path to JSONL output file")
@@ -165,7 +179,6 @@ def parse_args() -> argparse.Namespace:
 
 
 def setup_logging(level: str) -> None:
-    # noinspection SpellCheckingInspection
     logging.basicConfig(
         level=getattr(logging, level),
         format="%(asctime)s | %(levelname)s | %(message)s",
@@ -179,6 +192,7 @@ def run(
         output: Path,
         seed: Optional[int],
         echo_stdout: bool,
+        sensor_id: str = "dht22-001",
 ) -> None:
     writer = JSONLWriter(output)
     sensor = MockDHT22(seed=seed)
@@ -186,7 +200,7 @@ def run(
     n = 0
     try:
         while True:
-            reading = emit_reading(device_id, sensor)
+            reading = emit_reading(device_id, sensor_id, sensor)
             obj = asdict(reading)
 
             writer.append(obj)
@@ -223,31 +237,36 @@ def _self_tests() -> None:
             output=path,
             seed=123,
             echo_stdout=False,
+            sensor_id="dht22-test",
         )
         lines = path.read_text(encoding="utf-8").splitlines()
         assert len(lines) == 5, f"expected 5 lines, got {len(lines)}"
         for i, line in enumerate(lines):
             obj = loads(line)
-            for key in ("timestamp", "temperature_C", "humidity", "device_id"):
+            for key in ("timestamp", "timestamp_ms", "temperature_C", "humidity", "device_id", "sensor_id"):
                 assert key in obj, f"missing key {key} in line {i}: {obj}"
             # Type checks
             assert isinstance(obj["timestamp"], str)
+            assert isinstance(obj["timestamp_ms"], str)
             assert isinstance(obj["temperature_C"], (int, float))
             assert isinstance(obj["humidity"], (int, float))
             assert isinstance(obj["device_id"], str)
+            assert isinstance(obj["sensor_id"], str)
             # Range checks (loose bounds)
             assert 10.0 <= obj["temperature_C"] <= 40.0
             assert 0.0 <= obj["humidity"] <= 100.0
 
-        # Determinism with same seed
+        # Determinism with same seed (ignore time-dependent fields)
         path_a = Path(td) / "a.jsonl"
         path_b = Path(td) / "b.jsonl"
-        args = dict(device_id="seeded", interval=0.0, count=3, seed=42, echo_stdout=False)
-        run(output=path_a, **args)
-        run(output=path_b, **args)
-        lines_a = path_a.read_text(encoding="utf-8").splitlines()
-        lines_b = path_b.read_text(encoding="utf-8").splitlines()
-        assert lines_a == lines_b, "same seed should produce identical sequence"
+        run_kwargs = dict(device_id="seeded", interval=0.0, count=3, seed=42, echo_stdout=False, sensor_id="dht22-seeded")
+        run(output=path_a, **run_kwargs)
+        run(output=path_b, **run_kwargs)
+        rows_a = [loads(s) for s in path_a.read_text(encoding="utf-8").splitlines()]
+        rows_b = [loads(s) for s in path_b.read_text(encoding="utf-8").splitlines()]
+        def strip_time(rows):
+            return [{k: v for k, v in r.items() if k not in ("timestamp", "timestamp_ms")} for r in rows]
+        assert strip_time(rows_a) == strip_time(rows_b), "same seed should produce identical sequence (excluding timestamps)"
 
 
 # ----------------------------
@@ -269,4 +288,5 @@ if __name__ == "__main__":
         output=args.output,
         seed=args.seed,
         echo_stdout=not args.no_stdout,
+        sensor_id=args.sensor_id,
     )
