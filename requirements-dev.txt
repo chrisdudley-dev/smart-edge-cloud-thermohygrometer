@@ -10,3 +10,6 @@ mypy>=1.10,<2.0
 # Helpful for data inspection, quick charts during debugging
 pandas>=2.0,<3.0
 matplotlib>=3.8,<4.0
+
+# JSON Schema validation
+jsonschema>=4.18,<5
