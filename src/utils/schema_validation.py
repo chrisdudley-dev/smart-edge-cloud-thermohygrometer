@@ -1,4 +1,4 @@
-# src/utils/schema_validation.py
+﻿# src/utils/schema_validation.py
 import json
 from pathlib import Path
 from jsonschema import Draft202012Validator
@@ -21,3 +21,4 @@ def load_schema(rel_path: str):
 
 def validate_payload(payload: dict, schema: dict) -> None:
     Draft202012Validator(schema).validate(payload)
+

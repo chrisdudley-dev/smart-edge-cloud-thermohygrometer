@@ -1,4 +1,4 @@
-# requirements.txt — Edge device (Raspberry Pi)
+﻿# requirements.txt â€” Edge device (Raspberry Pi)
 # Lean runtime dependencies needed on the device itself.
 # Notes:
 # - Keep this minimal to reduce disk + build time.
@@ -30,3 +30,4 @@ adafruit-circuitpython-dht>=4.0,<5.0 ; platform_system=="Linux" and platform_mac
 # add the AWS IoT Device SDK v2. Keep commented unless needed.
 # awsiotsdk>=1.18,<2.0
 # awscrt>=0.20,<1.0
+

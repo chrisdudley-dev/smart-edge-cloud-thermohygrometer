@@ -1,67 +1,67 @@
-# 🌐 Smart Edge–Cloud Monitor
+﻿# ðŸŒ Smart Edgeâ€“Cloud Monitor
 
-**Your Environment, Monitored — From the Edge to the Cloud**  
+**Your Environment, Monitored â€” From the Edge to the Cloud**  
 [![License](https://img.shields.io/badge/license-Apache--2.0-blue)](LICENSE)  
 [![Platform](https://img.shields.io/badge/platform-Raspberry%20Pi-lightgrey)]()  
 [![Status](https://img.shields.io/badge/status-In%20Development-yellow)]()
 
 ---
 
-## 📖 Overview
+## ðŸ“– Overview
 
-The Smart Edge–Cloud Monitor is an IoT system designed to collect real-time environmental data (temperature and humidity) using a Raspberry Pi, and send this data securely to AWS cloud infrastructure for monitoring, logging, and future analysis.
-
----
-
-## 🌟 Features
-
-- 📡 Sensor-to-Cloud Data Streaming (DHT22 → Pi → AWS IoT Core)
-- 🌤 Real-Time Temperature and Humidity Monitoring
-- ☁️ Secure Communication over MQTT
-- 🗂️ Local Logging with Cloud Sync
-- 📊 Cloud Storage with AWS DynamoDB (MVP)
-- 📡 Planned Visualization via Web Dashboard
+The Smart Edgeâ€“Cloud Monitor is an IoT system designed to collect real-time environmental data (temperature and humidity) using a Raspberry Pi, and send this data securely to AWS cloud infrastructure for monitoring, logging, and future analysis.
 
 ---
 
-## 📁 Project Structure
+## ðŸŒŸ Features
+
+- ðŸ“¡ Sensor-to-Cloud Data Streaming (DHT22 â†’ Pi â†’ AWS IoT Core)
+- ðŸŒ¤ Real-Time Temperature and Humidity Monitoring
+- â˜ï¸ Secure Communication over MQTT
+- ðŸ—‚ï¸ Local Logging with Cloud Sync
+- ðŸ“Š Cloud Storage with AWS DynamoDB (MVP)
+- ðŸ“¡ Planned Visualization via Web Dashboard
+
+---
+
+## ðŸ“ Project Structure
 
 ```bash
-smart-edge-cloud-monitor/
-├── src/                    # Main application code (Python)
-│   ├── main.py
-│   └── log_sensors_mock.py # Mock temperature/humidity logger
-├── docs/                   # Documentation
-│   ├── PID.txt             # Project Initiation Document
-│   └── TDD.txt             # Technical Design Document
-├── test/                   # Unit tests and test data
-├── hardware/               # Wiring diagrams and pin mappings
-├── requirements.txt        # Edge device dependencies
-├── requirements-dev.txt    # Local development + CI dependencies
-├── lambda_requirements.txt # AWS Lambda deployment dependencies
-├── lambda_local_requirements.txt # AWS Lambda local test dependencies
-├── .gitignore
-├── LICENSE
-└── README.md               # This file
+smart-edge-cloud-thermohygrometer/
+â”œâ”€â”€ src/                    # Main application code (Python)
+â”‚   â”œâ”€â”€ main.py
+â”‚   â””â”€â”€ log_sensors_mock.py # Mock temperature/humidity logger
+â”œâ”€â”€ docs/                   # Documentation
+â”‚   â”œâ”€â”€ PID.txt             # Project Initiation Document
+â”‚   â””â”€â”€ TDD.txt             # Technical Design Document
+â”œâ”€â”€ test/                   # Unit tests and test data
+â”œâ”€â”€ hardware/               # Wiring diagrams and pin mappings
+â”œâ”€â”€ requirements.txt        # Edge device dependencies
+â”œâ”€â”€ requirements-dev.txt    # Local development + CI dependencies
+â”œâ”€â”€ lambda_requirements.txt # AWS Lambda deployment dependencies
+â”œâ”€â”€ lambda_local_requirements.txt # AWS Lambda local test dependencies
+â”œâ”€â”€ .gitignore
+â”œâ”€â”€ LICENSE
+â””â”€â”€ README.md               # This file
 ```
 
 ---
 
-## 🚀 Getting Started
+## ðŸš€ Getting Started
 
-### ✅ Prerequisites
+### âœ… Prerequisites
 - Raspberry Pi 4 or 5 (with Raspberry Pi OS 64-bit)
 - Python 3.9+ installed
 - Internet connectivity (Wi-Fi or Ethernet)
 - AWS Account + IAM permissions for IoT Core & DynamoDB
 
-### 💻 Clone the Repository
+### ðŸ’» Clone the Repository
 ```bash
-git clone https://github.com/chrisdudley-dev/smart-edge-cloud-monitor.git
-cd smart-edge-cloud-monitor
+git clone https://github.com/chrisdudley-dev/smart-edge-cloud-thermohygrometer.git
+cd smart-edge-cloud-thermohygrometer
 ```
 
-### 🧪 Create Virtual Environment
+### ðŸ§ª Create Virtual Environment
 #### Windows
 ```powershell
 python -m venv venv
@@ -75,7 +75,7 @@ source venv/bin/activate
 
 ---
 
-### 📦 Install Dependencies
+### ðŸ“¦ Install Dependencies
 
 **For Local Development / CI**  
 Includes runtime + testing, linting, and analysis tools.
@@ -97,14 +97,14 @@ pip install -r lambda_requirements.txt
 ```
 
 **For Local Testing of Lambda Functions**  
-Matches Lambda’s runtime libraries (including boto3/botocore).
+Matches Lambdaâ€™s runtime libraries (including boto3/botocore).
 ```bash
 pip install -r lambda_local_requirements.txt
 ```
 
 ---
 
-## 🔍 Usage Examples
+## ðŸ” Usage Examples
 
 ### Run the main app
 From the repo root:
@@ -124,7 +124,7 @@ python src/main.py
 
 ---
 
-### Mock Sensor Logger (Day 16–17)
+### Mock Sensor Logger (Day 16â€“17)
 Generate realistic mock readings (as if from a DHT22) for local logging, testing, and pipeline exercises.
 
 ```bash
@@ -153,7 +153,7 @@ python src/log_sensors_mock.py --count 60 --interval 2   --device-id edge-node-0
 - `--seed` random seed for reproducibility
 - `--self-test` runs built-in smoke tests and exits
 
-> Tip: keep generated logs out of Git—add this to `.gitignore`:
+> Tip: keep generated logs out of Gitâ€”add this to `.gitignore`:
 > ```
 > data/
 > ```
@@ -161,14 +161,14 @@ python src/log_sensors_mock.py --count 60 --interval 2   --device-id edge-node-0
 
 ---
 
-## 🧠 System Overview
+## ðŸ§  System Overview
 
 ## Architecture
 
-**Variant A — Mosquitto bridge**  
+**Variant A â€” Mosquitto bridge**  
 ![Mosquitto bridge](docs/architecture/arch_variantA_mosquitto-bridge.png)
 
-**Variant B — Direct to AWS**  
+**Variant B â€” Direct to AWS**  
 ![Direct to AWS](docs/architecture/arch_variantB_direct-aws.png)
 
 ### Data Flow Sequence
@@ -212,11 +212,11 @@ sequenceDiagram
 
 > The dashed OTA/config (Jobs/Shadow) path is included in both variants.
 
-> 📌 Sensor Wiring Diagram (Coming Soon)
+> ðŸ“Œ Sensor Wiring Diagram (Coming Soon)
 
 ---
 
-## 🛣 Roadmap
+## ðŸ›£ Roadmap
 
 - [x] Create project structure and GitHub repo
 - [x] Draft PID and TDD
@@ -232,14 +232,14 @@ sequenceDiagram
 
 ---
 
-## 📚 Documentation
+## ðŸ“š Documentation
 
-- [📄 Project Initiation Document (PID)](docs/PID.txt)
-- [📄 Technical Design Document (TDD)](docs/TDD.txt)
+- [ðŸ“„ Project Initiation Document (PID)](docs/PID.txt)
+- [ðŸ“„ Technical Design Document (TDD)](docs/TDD.txt)
 
 ---
 
-## 🤝 Contributing
+## ðŸ¤ Contributing
 
 Want to contribute? Awesome!  
 Help us improve by forking the repo and submitting a pull request.
@@ -248,14 +248,15 @@ Help us improve by forking the repo and submitting a pull request.
 
 ---
 
-## 📬 Contact
+## ðŸ“¬ Contact
 
-- Chris Dudley – [GitHub](https://github.com/chrisdudley-dev)
+- Chris Dudley â€“ [GitHub](https://github.com/chrisdudley-dev)
 
 ---
 
-## 📝 License
+## ðŸ“ License
 
 This project is licensed under the [Apache 2.0 License](LICENSE).
+
 
 
