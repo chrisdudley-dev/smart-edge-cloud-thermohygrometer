@@ -209,3 +209,6 @@ __marimo__/
 data/
 data/*.jsonl
 out/
+.venv/
+.DS_Store
+Thumbs.db
