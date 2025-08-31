@@ -1,4 +1,4 @@
-{
+﻿{
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://example.org/schemas/v0.2/sensor-data.schema.json",
   "title": "Sensor Data Payload (v0.2)",
@@ -32,3 +32,4 @@
   },
   "additionalProperties": false
 }
+

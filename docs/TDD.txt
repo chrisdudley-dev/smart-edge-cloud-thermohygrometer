@@ -1,5 +1,5 @@
-Technical Design Document (TDD)
-Project: Smart-Edge-Cloud-Monitor
+﻿Technical Design Document (TDD)
+Project: smart-edge-cloud-thermohygrometer
 Author: Christopher J. Dudley
 Version: 1.2
 Date: 2025-08-02
@@ -7,7 +7,7 @@ Date: 2025-08-02
 ---
 
 1. Overview
-This document details the technical architecture, component breakdown, data flow, and implementation plan for the Smart-Edge-Cloud-Monitor system — an intelligent environmental monitoring platform using a Raspberry Pi, edge AI inference, MQTT, and AWS cloud services. It serves as a reference for implementation and future maintenance.
+This document details the technical architecture, component breakdown, data flow, and implementation plan for the smart-edge-cloud-thermohygrometer system â€” an intelligent environmental monitoring platform using a Raspberry Pi, edge AI inference, MQTT, and AWS cloud services. It serves as a reference for implementation and future maintenance.
 
 ---
 
@@ -50,9 +50,9 @@ A visual architecture diagram is available in the project repository under `docs
 1. Read data
 2. Inference
 3. Publish via MQTT
-4. AWS IoT → Lambda
-5. Lambda → DynamoDB
-6. Anomaly → SNS Alert
+4. AWS IoT â†’ Lambda
+5. Lambda â†’ DynamoDB
+6. Anomaly â†’ SNS Alert
 
 ---
 
@@ -130,9 +130,9 @@ C. AWS Resources:
 ---
 
 11. Version History
-- v1.0 – Initial draft
-- v1.1 – Added security and reliability section
-- v1.2 – Finalized AWS resource mapping and extensibility
+- v1.0 â€“ Initial draft
+- v1.1 â€“ Added security and reliability section
+- v1.2 â€“ Finalized AWS resource mapping and extensibility
 
 ---
 

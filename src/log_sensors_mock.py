@@ -1,6 +1,6 @@
-#!/usr/bin/env python3
+﻿#!/usr/bin/env python3
 """
-Basic mock sensor logger for the Smart Edge–Cloud Monitor project.
+Basic mock sensor logger for the Smart Edgeâ€“Cloud Monitor project.
 
 Generates plausible temperature/humidity readings (as if from a DHT22)
 without requiring any hardware. Outputs JSON Lines (one object per line)
@@ -290,3 +290,4 @@ if __name__ == "__main__":
         echo_stdout=not args.no_stdout,
         sensor_id=args.sensor_id,
     )
+

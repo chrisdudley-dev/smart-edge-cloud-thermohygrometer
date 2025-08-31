@@ -1,4 +1,4 @@
-from jsonschema import ValidationError
+﻿from jsonschema import ValidationError
 from utils.schema_validation import load_schema, validate_payload
 
 def test_sensor_valid_v02():
@@ -35,3 +35,4 @@ def test_sensor_invalid_missing_temperature_v02():
         assert False, "Expected ValidationError"
     except ValidationError:
         pass
+

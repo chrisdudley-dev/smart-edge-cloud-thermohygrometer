@@ -1,6 +1,6 @@
-Project Initiation Document (PID)
+﻿Project Initiation Document (PID)
 
-Smart-Edge-Cloud-Monitor: AI-Powered Environmental Monitoring with Cloud Alerting
+smart-edge-cloud-thermohygrometer: AI-Powered Environmental Monitoring with Cloud Alerting
 
 Executive Summary
 
@@ -54,7 +54,7 @@ Week 6: Document full setup, create visuals and screenshots
 Week 7: Finalize codebase and documentation for public release
 
 ## GitHub Deliverables
-Smart-Edge-Cloud-Monitor/
+smart-edge-cloud-thermohygrometer/
 - README.md
 - project_initiation_doc.md
 - requirements.txt
@@ -79,7 +79,7 @@ Smart-Edge-Cloud-Monitor/
 - Hardware unavailable or faulty: Use log_sensors_mock.py to simulate sensor input
 - AWS misconfiguration: Use AWS CLI tutorials + test in sandbox mode
 - MQTT latency or dropouts: Add retry logic + local logging failover
-- Model doesn’t detect well: Use threshold-based rules or pre-trained TFLite
+- Model doesnâ€™t detect well: Use threshold-based rules or pre-trained TFLite
 - Lack of time: Complete MVP in simulation mode, expand later
 - AWS cost creep: Use free tier + scheduled teardown script
 

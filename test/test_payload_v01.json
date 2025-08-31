@@ -1,4 +1,4 @@
-{
+﻿{
   "timestamp": "2025-08-16T12:05:00Z",
   "temperature": 28.4,
   "humidity": 55.2,
@@ -6,3 +6,4 @@
   "anomaly_detected": false,
   "reason": ""
 }
+
