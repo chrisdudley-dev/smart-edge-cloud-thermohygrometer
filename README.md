@@ -1,4 +1,4 @@
-# 🌐 Smart Edge–Cloud Monitor
+# 🌐 Smart Edge–Cloud Thermostat
 
 **Your Environment, Monitored — From the Edge to the Cloud**  
 [![License](https://img.shields.io/badge/license-Apache--2.0-blue)](LICENSE)  
@@ -9,7 +9,7 @@
 
 ## 📖 Overview
 
-The Smart Edge–Cloud Monitor is an IoT system designed to collect real-time environmental data (temperature and humidity) using a Raspberry Pi, and send this data securely to AWS cloud infrastructure for monitoring, logging, and future analysis.
+The Smart Edge–Cloud Thermohygrometer is an IoT system designed to collect real-time environmental data (temperature and humidity) using a Raspberry Pi, and send this data securely to AWS cloud infrastructure for monitoring, logging, and future analysis.
 
 ---
 
@@ -27,7 +27,7 @@ The Smart Edge–Cloud Monitor is an IoT system designed to collect real-time en
 ## 📁 Project Structure
 
 ```bash
-smart-edge-cloud-monitor/
+smart-edge-cloud-Thermohygrometer/
 ├── src/                    # Main application code (Python)
 │   ├── main.py
 │   └── log_sensors_mock.py # Mock temperature/humidity logger
@@ -57,8 +57,8 @@ smart-edge-cloud-monitor/
 
 ### 💻 Clone the Repository
 ```bash
-git clone https://github.com/chrisdudley-dev/smart-edge-cloud-monitor.git
-cd smart-edge-cloud-monitor
+git clone https://github.com/chrisdudley-dev/smart-edge-cloud-Thermohygrometer.git
+cd smart-edge-cloud-Thermohygrometer
 ```
 
 ### 🧪 Create Virtual Environment
