@@ -1,6 +1,6 @@
-# 🌐 Smart Edge–Cloud Thermohygrometer
+# 🌡️ Edge–to-Cloud Thermohygrometer
 
-**Your Environment, Monitored — From the Edge to the Cloud**  
+**Simple Edge-to-Cloud Temperature & Humidity Readings**  
 [![License](https://img.shields.io/badge/license-Apache--2.0-blue)](LICENSE)  
 [![Platform](https://img.shields.io/badge/platform-Raspberry%20Pi-lightgrey)]()  
 [![Status](https://img.shields.io/badge/status-In%20Development-yellow)]()
